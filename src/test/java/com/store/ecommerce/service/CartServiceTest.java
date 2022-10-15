@@ -64,7 +64,8 @@ public class CartServiceTest {
         when(cartRepo.findById(cart.getCartId())).thenReturn(Optional.ofNullable(cart));
 
         // assert
-        assertThat(cartService.getCartById(cart.getCartId()).orElse(new Cart()).getCartId()).isEqualTo(cart.getCartId());
+        assertThat(cartService.getCartById(cart.getCartId()).orElse(new Cart())
+                .getCartId()).isEqualTo(cart.getCartId());
         verify(cartRepo).findById(cart.getCartId());
     }
 
@@ -135,7 +136,8 @@ public class CartServiceTest {
             assertThat(returnedCartItem.isEmpty()).isEqualTo(true);
             verify(cartItemRepo).delete(cartItem);
         } else {
-            assertThat(returnedCartItem.orElse(new CartItem()).getQuantity()).isEqualTo(productQtyToAdd - productQtyToRemove);
+            assertThat(returnedCartItem.orElse(new CartItem())
+                    .getQuantity()).isEqualTo(productQtyToAdd - productQtyToRemove);
             assertThat(returnedCartItem.orElse(new CartItem()).getTotal())
                     .isEqualTo(availableProduct.getPrice() * (cartItem.getQuantity()));
             verify(cartItemRepo).save(cartItem);

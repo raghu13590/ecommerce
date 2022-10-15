@@ -9,9 +9,22 @@ import java.util.Set;
 @Entity
 public class Discount {
 
-    public enum DiscountType {
-        OFF, SALE
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
+    private Long discountId;
+    @Column(nullable = false)
+    private DiscountType discountType;
+    @Column(nullable = false)
+    private Integer percentageOff;
+    @JsonIgnore
+    @OneToMany(mappedBy = "discount")
+    private Set<Product> products = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "discount")
+    private Set<CartItem> discountedItemsInCart = new HashSet<>();
+    @Version
+    private Long version;
 
     public Discount() {
     }
@@ -20,28 +33,6 @@ public class Discount {
         this.discountType = discountType;
         this.percentageOff = percentageOff;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
-    private Long discountId;
-
-    @Column(nullable = false)
-    private DiscountType discountType;
-
-    @Column(nullable = false)
-    private Integer percentageOff;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "discount")
-    private Set<Product> products = new HashSet<>();
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "discount")
-    private Set<CartItem> discountedItemsInCart = new HashSet<>();
-
-    @Version
-    private Long version;
 
     public Long getDiscountId() {
         return discountId;
@@ -89,5 +80,9 @@ public class Discount {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public enum DiscountType {
+        OFF, SALE
     }
 }

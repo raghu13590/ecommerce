@@ -25,7 +25,7 @@ public class DiscountServiceTest {
     @InjectMocks
     private DiscountService discountService;
 
-    private Discount discount = new Discount(Discount.DiscountType.OFF, 50);
+    private final Discount discount = new Discount(Discount.DiscountType.OFF, 50);
 
     @Test
     public void whenGetAllDiscountsShouldGetDiscounts() {
@@ -41,7 +41,7 @@ public class DiscountServiceTest {
         assertThat(returnedDiscounts).isSameAs(discounts);
         verify(discountRepo).findAll();
     }
-    
+
     @Test
     public void whenGetDiscountByIdShouldReturnDiscount() {
 

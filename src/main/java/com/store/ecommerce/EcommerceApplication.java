@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 public class EcommerceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(EcommerceApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EcommerceApplication.class, args);
+    }
 
-	@RequestMapping("/")
-	public String index() {
-		return "ecommerce app is up and running...";
-	}
+    @RequestMapping("/")
+    public String index() {
+        return "ecommerce app is up and running...";
+    }
 }

@@ -4,36 +4,30 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 public class PurchaseOrder {
 
-    PurchaseOrder(){
-        this.createTime = LocalDate.now();
-        this.total = 0.00;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long purchaseOrdersId;
-
     @Column
     private LocalDate createTime;
-
     @Column
     private Double total;
-
     @JsonIgnore
     @OneToMany(mappedBy = "purchaseOrder")
     private Set<PurchaseOrderDetail> purchaseOrderDetails = new HashSet<>();
-
     @Version
     private Long version;
+
+    PurchaseOrder() {
+        this.createTime = LocalDate.now();
+        this.total = 0.00;
+    }
 
     public Long getPurchaseOrdersId() {
         return purchaseOrdersId;

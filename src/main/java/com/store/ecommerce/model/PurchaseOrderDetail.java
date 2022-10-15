@@ -7,35 +7,29 @@ import javax.persistence.*;
 @Entity
 public class PurchaseOrderDetail {
 
-    PurchaseOrderDetail(){
-        this.quantity = 0;
-        this.total = 0.00;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long purchaseOrderDetailId;
-
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "purchaseOrder_id")
     private PurchaseOrder purchaseOrder = new PurchaseOrder();
-
     @Column
     private Long productId;
-
     @Column
     private Integer quantity;
-
     @Column
     private Long discountId;
-
     @Column
     private Double total;
-
     @Version
     private Long version;
+
+    PurchaseOrderDetail() {
+        this.quantity = 0;
+        this.total = 0.00;
+    }
 
     public Long getPurchaseOrderDetailId() {
         return purchaseOrderDetailId;

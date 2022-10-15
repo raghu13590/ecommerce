@@ -7,38 +7,32 @@ import javax.persistence.*;
 @Entity
 public class CartItem {
 
-    public CartItem() {
-        this.quantity = 0L;
-        this.total = 0.00;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
     private Long cartItemId;
-
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private Cart cart;
-
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
-
     @Column
     private Long quantity;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "discount_id")
     private Discount discount;
-
     @Column
     private Double total;
-
     @Version
     private Long version;
+
+    public CartItem() {
+        this.quantity = 0L;
+        this.total = 0.00;
+    }
 
     public Long getCartItemId() {
         return cartItemId;

@@ -2,7 +2,6 @@ package com.store.ecommerce.service;
 
 import com.store.ecommerce.exception.EcommerceException;
 import com.store.ecommerce.model.Discount;
-import com.store.ecommerce.model.PurchaseOrder;
 import com.store.ecommerce.repository.DiscountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

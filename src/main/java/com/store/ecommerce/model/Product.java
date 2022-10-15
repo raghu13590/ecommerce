@@ -7,8 +7,33 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint( name = "product_name_unique", columnNames = "name")})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "product_name_unique", columnNames = "name")})
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
+    private Long productId;
+    @Column(nullable = false)
+    private String name;
+    @Column
+    private String description;
+    @Column(nullable = false)
+    private Double price;
+    @Column(nullable = false)
+    private Long quantity;
+    @Column
+    private String pictureUrl;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "discount_id")
+    private Discount discount;
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private Set<CartItem> inCart = new HashSet<>();
+    @Column(nullable = false)
+    private boolean active;
+    @Version
+    private Long version;
 
     public Product() {
     }
@@ -18,40 +43,6 @@ public class Product {
         this.quantity = quantity;
         this.active = active;
     }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false)
-    private Long productId;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column
-    private String description;
-
-    @Column(nullable = false)
-    private Double price;
-
-    @Column(nullable = false)
-    private Long quantity;
-
-    @Column
-    private String pictureUrl;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "discount_id")
-    private Discount discount;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "product")
-    private Set<CartItem> inCart = new HashSet<>();
-
-    @Column(nullable = false)
-    private boolean active;
-
-    @Version
-    private Long version;
 
     public Long getProductId() {
         return productId;

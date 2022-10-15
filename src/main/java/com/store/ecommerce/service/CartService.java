@@ -1,10 +1,10 @@
 package com.store.ecommerce.service;
 
 import com.store.ecommerce.exception.EcommerceException;
+import com.store.ecommerce.model.Cart;
 import com.store.ecommerce.model.CartItem;
 import com.store.ecommerce.model.Discount;
 import com.store.ecommerce.model.Product;
-import com.store.ecommerce.model.Cart;
 import com.store.ecommerce.repository.CartItemRepo;
 import com.store.ecommerce.repository.CartRepo;
 import com.store.ecommerce.repository.DiscountRepo;
@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -58,7 +57,7 @@ public class CartService {
         Cart cart = cartRepo.findById(cartId).orElseThrow();
         Product product = productRepo.findById(productId).orElseThrow();
 
-        if(product.getQuantity() < qty ) {
+        if (product.getQuantity() < qty) {
             throw new EcommerceException("insufficient items in inventory");
         }
 
@@ -95,7 +94,8 @@ public class CartService {
             throw new EcommerceException("cart doesn't exist");
         }
 
-        if (!productRepo.existsById(productId) || (productRepo.findById(productId).isPresent() && !productRepo.findById(productId).get().isActive())) {
+        if (!productRepo.existsById(productId) || (productRepo.findById(productId)
+                .isPresent() && !productRepo.findById(productId).get().isActive())) {
             throw new EcommerceException("product doesn't exist or not available");
         }
     }
@@ -125,7 +125,7 @@ public class CartService {
         Optional<Discount> discount = discountRepo.findById(product.getDiscount().getDiscountId());
         if (discount.isPresent()) {
             if (Discount.DiscountType.OFF.equals(discount.get().getDiscountType())) {
-                total = total * (discount.get().getPercentageOff()/100);
+                total = total * (discount.get().getPercentageOff() / 100);
             }
         }
         return total;

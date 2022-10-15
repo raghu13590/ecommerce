@@ -35,7 +35,7 @@ public class ProductService {
 
     public Product updateProduct(Product product, Long productId) {
         checkProductExists(productId);
-        Product existingProduct = productRepo.findById(productId).get();
+        Product existingProduct = productRepo.findById(productId).orElseThrow();
         checkProductNameAlreadyInUse(existingProduct);
 
         existingProduct.setName(product.getName());
@@ -50,15 +50,15 @@ public class ProductService {
 
     public Product addDiscountToProduct(Long productId, Long discountId) {
         checkProductExists(productId);
-        Product product = productRepo.findById(productId).get();
-        Discount discount = discountRepo.findById(discountId).get();
+        Product product = productRepo.findById(productId).orElseThrow();
+        Discount discount = discountRepo.findById(discountId).orElseThrow();
         product.setDiscount(discount);
         return productRepo.save(product);
     }
 
     public Product removeProduct(Long productId) {
         checkProductExists(productId);
-        Product product = productRepo.findById(productId).get();
+        Product product = productRepo.findById(productId).orElseThrow();
         product.setActive(false);
         return productRepo.save(product);
     }
@@ -71,14 +71,14 @@ public class ProductService {
 
     private void checkProductNameAlreadyInUse(Product product) {
         Optional<Product> existingProduct = productRepo.getProductByName(product.getName());
-        if (existingProduct.isPresent() && !existingProduct.get().getProductId().equals(product.getProductId())){
+        if (existingProduct.isPresent() && !existingProduct.get().getProductId().equals(product.getProductId())) {
             throw new EcommerceException("product name already in use, please use a different name");
         }
     }
 
     public Product removeDiscountFromProduct(Long productId) {
         checkProductExists(productId);
-        Product product = productRepo.findById(productId).get();
+        Product product = productRepo.findById(productId).orElseThrow();
         product.setDiscount(null);
         return productRepo.save(product);
     }
