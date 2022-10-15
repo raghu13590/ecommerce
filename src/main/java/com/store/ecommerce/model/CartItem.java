@@ -37,6 +37,9 @@ public class CartItem {
     @Column
     private Double total;
 
+    @Version
+    private Long version;
+
     public Long getCartItemId() {
         return cartItemId;
     }
@@ -83,5 +86,13 @@ public class CartItem {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

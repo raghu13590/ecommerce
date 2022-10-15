@@ -32,6 +32,9 @@ public class PurchaseOrder {
     @OneToMany(mappedBy = "purchaseOrder")
     private Set<PurchaseOrderDetail> purchaseOrderDetails = new HashSet<>();
 
+    @Version
+    private Long version;
+
     public Long getPurchaseOrdersId() {
         return purchaseOrdersId;
     }
@@ -62,5 +65,13 @@ public class PurchaseOrder {
 
     public void setPurchaseOrderDetails(Set<PurchaseOrderDetail> purchaseOrderDetails) {
         this.purchaseOrderDetails = purchaseOrderDetails;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

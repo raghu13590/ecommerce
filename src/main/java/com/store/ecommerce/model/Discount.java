@@ -40,6 +40,9 @@ public class Discount {
     @OneToMany(mappedBy = "discount")
     private Set<CartItem> discountedItemsInCart = new HashSet<>();
 
+    @Version
+    private Long version;
+
     public Long getDiscountId() {
         return discountId;
     }
@@ -78,5 +81,13 @@ public class Discount {
 
     public void setDiscountedItemsInCart(Set<CartItem> discountedItemsInCart) {
         this.discountedItemsInCart = discountedItemsInCart;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

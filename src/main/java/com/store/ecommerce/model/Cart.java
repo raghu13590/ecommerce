@@ -35,6 +35,9 @@ public class Cart {
     @Column
     private Double total;
 
+    @Version
+    private Long version;
+
     public Long getCartId() {
         return cartId;
     }
@@ -73,5 +76,13 @@ public class Cart {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

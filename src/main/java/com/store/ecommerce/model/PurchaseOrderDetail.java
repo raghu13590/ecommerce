@@ -34,6 +34,9 @@ public class PurchaseOrderDetail {
     @Column
     private Double total;
 
+    @Version
+    private Long version;
+
     public Long getPurchaseOrderDetailId() {
         return purchaseOrderDetailId;
     }
@@ -80,5 +83,13 @@ public class PurchaseOrderDetail {
 
     public void setTotal(Double total) {
         this.total = total;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

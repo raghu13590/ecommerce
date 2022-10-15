@@ -50,6 +50,9 @@ public class Product {
     @Column(nullable = false)
     private boolean active;
 
+    @Version
+    private Long version;
+
     public Long getProductId() {
         return productId;
     }
@@ -120,5 +123,13 @@ public class Product {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

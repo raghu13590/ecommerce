@@ -41,7 +41,7 @@ public class CartService {
         return cartRepo.findAll();
     }
 
-    public Optional<Cart> getCart(Long cartId) {
+    public Optional<Cart> getCartById(Long cartId) {
         return cartRepo.findById(cartId);
     }
 
@@ -55,8 +55,8 @@ public class CartService {
         // validations
         validateCartAndProduct(cartId, productId);
 
-        Cart cart = cartRepo.findById(cartId).get();
-        Product product = productRepo.findById(productId).get();
+        Cart cart = cartRepo.findById(cartId).orElseThrow();
+        Product product = productRepo.findById(productId).orElseThrow();
 
         if(product.getQuantity() < qty ) {
             throw new EcommerceException("insufficient items in inventory");
@@ -73,18 +73,20 @@ public class CartService {
         cartItem.setTotal(cartItem.getTotal() + calculateProductTotal(product, qty));
         cartItemRepo.save(cartItem);
 
+        // update product quantity in inventory
+        product.setQuantity(product.getQuantity() - qty);
+        productRepo.save(product);
+
         // add item to cart and calculate total order cost
         cart.getItemsInCart().add(cartItem);
         cart.setTotal(calculateCartTotal(cart.getItemsInCart()));
-
-        // update product quantity in inventory
-        product.setQuantity(product.getQuantity() - qty);
         cart.setLastUpdate(LocalDate.now());
+        cartRepo.save(cart);
         return cart;
     }
 
     /***
-     * checks if cart exists and product exists and active
+     * checks if cart exists and product exists and is active
      * @param cartId
      * @param productId
      */
@@ -93,16 +95,26 @@ public class CartService {
             throw new EcommerceException("cart doesn't exist");
         }
 
-        if (!productRepo.existsById(productId) || (productRepo.existsById(productId) && !productRepo.findById(productId).get().isActive())) {
+        if (!productRepo.existsById(productId) || (productRepo.findById(productId).isPresent() && !productRepo.findById(productId).get().isActive())) {
             throw new EcommerceException("product doesn't exist or not available");
         }
     }
 
+    /***
+     * returns total of all items in cart
+     * @param itemsInCart
+     * @return
+     */
     private Double calculateCartTotal(Set<CartItem> itemsInCart) {
-        Double total = itemsInCart.stream().collect(Collectors.summingDouble(CartItem::getTotal));
-        return total;
+        return itemsInCart.stream().mapToDouble(CartItem::getTotal).sum();
     }
 
+    /***
+     * calculates total of a product with the discount if any applicable
+     * @param product
+     * @param qty
+     * @return
+     */
     private Double calculateProductTotal(Product product, Long qty) {
         Double total = product.getPrice() * qty;
 
@@ -131,12 +143,12 @@ public class CartService {
     public Cart removeProductFromCart(Long cartId, Long productId, Long qty) {
         validateCartAndProduct(cartId, productId);
 
-        if (!cartItemRepo.getCartItemByCartIdAndProductId(cartId, productId).isPresent()) {
+        if (cartItemRepo.getCartItemByCartIdAndProductId(cartId, productId).isEmpty()) {
             throw new EcommerceException("product not in cart, cannot remove it");
         }
 
-        Cart cart = cartRepo.findById(cartId).get();
-        Product product = productRepo.findById(productId).get();
+        Cart cart = cartRepo.findById(cartId).orElseThrow();
+        Product product = productRepo.findById(productId).orElseThrow();
 
         // find cart items from cart for corresponding cart
         CartItem cartItem = cartItemRepo.getCartItemByCartIdAndProductId(cartId, productId).get();
@@ -148,14 +160,22 @@ public class CartService {
 
         // remove items and calculate new total
         cartItem.setQuantity(cartItem.getQuantity() - qty);
-        cartItem.setTotal(calculateProductTotal(product, qty));
-        cartItemRepo.save(cartItem);
+        if (cartItem.getQuantity() == 0) {
+            cart.getItemsInCart().remove(cartItem);
+            cartItemRepo.delete(cartItem);
+        } else {
+            cartItem.setTotal(calculateProductTotal(product, cartItem.getQuantity()));
+            cartItemRepo.save(cartItem);
+        }
+
+        // update product quantity in inventory
+        product.setQuantity(product.getQuantity() + qty);
+        productRepo.save(product);
 
         // remove items from cart and adjust the total
-        // may have to replace cartItem in cart
         cart.setTotal(calculateCartTotal(cart.getItemsInCart()));
         cart.setLastUpdate(LocalDate.now());
-        product.setQuantity(product.getQuantity() + qty);
+        cartRepo.save(cart);
         return cart;
     }
 }

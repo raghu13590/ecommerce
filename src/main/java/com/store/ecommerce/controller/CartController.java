@@ -21,7 +21,7 @@ public class CartController {
 
     @GetMapping(value = {"/cart/{cartId}"})
     public Optional<Cart> getCart(@PathVariable Long cartId) {
-        return cartService.getCart(cartId);
+        return cartService.getCartById(cartId);
     }
 
     @PostMapping(value = {"/cart"})
