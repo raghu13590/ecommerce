@@ -83,6 +83,6 @@ public class Discount {
     }
 
     public enum DiscountType {
-        OFF, SALE
+        OFF, BOGO50
     }
 }

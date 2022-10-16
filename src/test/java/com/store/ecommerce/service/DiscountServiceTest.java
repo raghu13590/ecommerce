@@ -2,6 +2,7 @@ package com.store.ecommerce.service;
 
 import com.store.ecommerce.model.Discount;
 import com.store.ecommerce.repository.DiscountRepo;
+import com.store.ecommerce.service.impl.DiscountServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +24,7 @@ public class DiscountServiceTest {
     private DiscountRepo discountRepo;
 
     @InjectMocks
-    private DiscountService discountService;
+    private DiscountServiceImpl discountService;
 
     private final Discount discount = new Discount(Discount.DiscountType.OFF, 50);
 

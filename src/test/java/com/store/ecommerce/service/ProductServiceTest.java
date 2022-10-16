@@ -4,6 +4,7 @@ import com.store.ecommerce.model.Discount;
 import com.store.ecommerce.model.Product;
 import com.store.ecommerce.repository.DiscountRepo;
 import com.store.ecommerce.repository.ProductRepo;
+import com.store.ecommerce.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,14 +30,14 @@ public class ProductServiceTest {
     @Mock
     private ProductRepo productRepo;
     @InjectMocks
-    private ProductService productService;
+    private ProductServiceImpl productServiceImpl;
 
     @Test
     public void whenGetAllProductsShouldReturnListOfProducts() {
 
         when(productRepo.findAll()).thenReturn(productList);
 
-        assertThat(productService.getAllProducts()).isSameAs(productList);
+        assertThat(productServiceImpl.getAllProducts()).isSameAs(productList);
     }
 
     @Test
@@ -44,7 +45,7 @@ public class ProductServiceTest {
         availableProduct.setProductId(1L);
         when(productRepo.findById(availableProduct.getProductId())).thenReturn(Optional.of(availableProduct));
 
-        Product returnedProduct = productService.getProductById(availableProduct.getProductId()).orElse(new Product());
+        Product returnedProduct = productServiceImpl.getProductById(availableProduct.getProductId()).orElse(new Product());
         assertThat(returnedProduct).isSameAs(availableProduct);
     }
 
@@ -62,7 +63,7 @@ public class ProductServiceTest {
         when(productRepo.existsById(availableProduct.getProductId())).thenReturn(true);
 
         // execute
-        Product updatedProduct = productService.updateProduct(updateProduct, availableProduct.getProductId());
+        Product updatedProduct = productServiceImpl.updateProduct(updateProduct, availableProduct.getProductId());
 
         // assert
         assertThat(updatedProduct.getProductId()).isEqualTo(availableProduct.getProductId());
@@ -86,7 +87,7 @@ public class ProductServiceTest {
         when(productRepo.save(availableProduct)).thenReturn(availableProduct);
 
         // execute
-        Product productWithDiscount = productService.addDiscountToProduct(availableProduct.getProductId(), discount.getDiscountId());
+        Product productWithDiscount = productServiceImpl.addDiscountToProduct(availableProduct.getProductId(), discount.getDiscountId());
 
         // assert
         assertThat(productWithDiscount.getDiscount()).isSameAs(discount);
@@ -103,7 +104,7 @@ public class ProductServiceTest {
         when(productRepo.save(availableProduct)).thenReturn(availableProduct);
 
         // execute
-        Product removedProduct = productService.removeProduct(availableProduct.getProductId());
+        Product removedProduct = productServiceImpl.removeProduct(availableProduct.getProductId());
 
         // assert
         assertThat(removedProduct.isActive()).isEqualTo(false);
@@ -120,7 +121,7 @@ public class ProductServiceTest {
         when(productRepo.save(availableProduct)).thenReturn(availableProduct);
 
         // execute
-        Product productWithDiscountRemoved = productService.removeDiscountFromProduct(availableProduct.getProductId());
+        Product productWithDiscountRemoved = productServiceImpl.removeDiscountFromProduct(availableProduct.getProductId());
 
         // assert
         assertThat(productWithDiscountRemoved.getDiscount()).isEqualTo(null);

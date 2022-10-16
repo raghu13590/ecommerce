@@ -6,6 +6,9 @@ import com.store.ecommerce.model.Product;
 import com.store.ecommerce.repository.CartItemRepo;
 import com.store.ecommerce.repository.CartRepo;
 import com.store.ecommerce.repository.ProductRepo;
+import com.store.ecommerce.service.impl.CartServiceImpl;
+import com.store.ecommerce.service.impl.DiscountServiceImpl;
+import com.store.ecommerce.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,11 +41,11 @@ public class CartServiceTest {
     @Mock
     ProductRepo productRepo;
     @Mock
-    ProductService productService;
+    ProductServiceImpl productServiceImpl;
     @Mock
-    DiscountService discountService;
+    DiscountServiceImpl discountService;
     @InjectMocks
-    CartService cartService;
+    CartServiceImpl cartService;
     private Cart cart = new Cart();
 
     @Test
