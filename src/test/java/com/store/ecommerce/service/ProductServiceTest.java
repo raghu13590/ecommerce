@@ -45,7 +45,8 @@ public class ProductServiceTest {
         availableProduct.setProductId(1L);
         when(productRepo.findById(availableProduct.getProductId())).thenReturn(Optional.of(availableProduct));
 
-        Product returnedProduct = productServiceImpl.getProductById(availableProduct.getProductId()).orElse(new Product());
+        Product returnedProduct = productServiceImpl.getProductById(availableProduct.getProductId())
+                .orElse(new Product());
         assertThat(returnedProduct).isSameAs(availableProduct);
     }
 

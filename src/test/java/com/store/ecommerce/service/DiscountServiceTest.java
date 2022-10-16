@@ -20,13 +20,11 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class DiscountServiceTest {
 
+    private final Discount discount = new Discount(Discount.DiscountType.OFF, 50);
     @Mock
     private DiscountRepo discountRepo;
-
     @InjectMocks
     private DiscountServiceImpl discountService;
-
-    private final Discount discount = new Discount(Discount.DiscountType.OFF, 50);
 
     @Test
     public void whenGetAllDiscountsShouldGetDiscounts() {

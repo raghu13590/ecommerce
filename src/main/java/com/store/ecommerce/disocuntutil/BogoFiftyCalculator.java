@@ -8,10 +8,10 @@ public class BogoFiftyCalculator implements DiscountCalculator {
     @Override
     public Double getDiscount(Integer percentageOff, Double price, Long qty) {
         // if even
-        if (qty%2 == 0) {
-            return price*(qty/2) + price*(0.5)*(qty/2);
+        if (qty % 2 == 0) {
+            return price * (qty / 2) + price * (0.5) * (qty / 2);
         } else {
-            return price*((qty/2) + 1) + price*(0.5)*(qty/2);
+            return price * ((qty / 2) + 1) + price * (0.5) * (qty / 2);
         }
     }
 }

@@ -9,6 +9,6 @@ public class OffCalculator implements DiscountCalculator {
     @Override
     public Double getDiscount(Integer percentageOff, Double price, Long qty) {
 
-        return price*qty*(percentageOff/100);
+        return price * qty * (percentageOff / 100);
     }
 }
