@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(name = "product_name_unique", columnNames = "name")})
+@Table(name = "PRODUCT", uniqueConstraints = {@UniqueConstraint(name = "product_name_unique", columnNames = "name")})
 public class Product {
 
     @Id
@@ -24,21 +24,21 @@ public class Product {
     private Long quantity;
     @Column
     private String pictureUrl;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "discount_id")
     private Discount discount;
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private Set<CartItem> inCart = new HashSet<>();
     @Column(nullable = false)
-    private boolean active;
+    private Boolean active;
     @Version
     private Long version;
 
     public Product() {
     }
 
-    public Product(Double price, Long quantity, boolean active) {
+    public Product(Double price, Long quantity, Boolean active) {
         this.price = price;
         this.quantity = quantity;
         this.active = active;
@@ -108,11 +108,11 @@ public class Product {
         this.inCart = inCart;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 

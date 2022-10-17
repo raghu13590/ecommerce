@@ -1,6 +1,7 @@
 package com.store.ecommerce.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,6 +9,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "CART")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "cartId")
 public class Cart {
 
     @Id
@@ -18,7 +23,6 @@ public class Cart {
     private LocalDate createTime;
     @Column
     private LocalDate lastUpdate;
-    @JsonIgnore
     @OneToMany(mappedBy = "cart")
     private Set<CartItem> itemsInCart = new HashSet<>();
     @Column

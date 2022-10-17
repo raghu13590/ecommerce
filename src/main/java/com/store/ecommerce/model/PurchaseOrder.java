@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "PURCHASE_ORDER")
 public class PurchaseOrder {
 
     @Id
@@ -18,7 +19,6 @@ public class PurchaseOrder {
     private LocalDate createTime;
     @Column
     private Double total;
-    @JsonIgnore
     @OneToMany(mappedBy = "purchaseOrder")
     private Set<PurchaseOrderDetail> purchaseOrderDetails = new HashSet<>();
     @Version

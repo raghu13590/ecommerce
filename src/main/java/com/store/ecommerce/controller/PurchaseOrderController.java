@@ -19,12 +19,12 @@ public class PurchaseOrderController {
         return purchaseOrderService.getAllOrders();
     }
 
-    @GetMapping(value = {"/purchaseOrder/purchaseOrderId"})
+    @GetMapping(value = {"/purchaseOrders/purchaseOrderId"})
     public Optional<PurchaseOrder> getPurchaseOrderById(@PathVariable("purchaseOrderId") Long purchaseOrderId) {
         return purchaseOrderService.getOrderById(purchaseOrderId);
     }
 
-    @PostMapping(value = {"/purchaseOrder"})
+    @PostMapping(value = {"/purchaseOrders"})
     public PurchaseOrder addPurchaseOrder(@RequestBody PurchaseOrder purchaseOrder) {
         return purchaseOrderService.createOrder(purchaseOrder);
     }

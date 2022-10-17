@@ -16,9 +16,11 @@ public interface ProductService {
 
     Product addDiscountToProduct(Long productId, Long discountId);
 
-    Product removeProduct(Long productId);
+    Product deActivateProduct(Long productId);
 
     Product removeDiscountFromProduct(Long productId);
 
     void deleteProduct(Long productId);
+
+    List<Product> getAllActiveProducts();
 }

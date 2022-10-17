@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -63,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product removeProduct(Long productId) {
+    public Product deActivateProduct(Long productId) {
         checkProductExists(productId);
         Product product = productRepo.findById(productId).orElseThrow();
         product.setActive(false);
@@ -95,5 +96,10 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProduct(Long productId) {
         checkProductExists(productId);
         productRepo.deleteById(productId);
+    }
+
+    @Override
+    public List<Product> getAllActiveProducts() {
+        return productRepo.findAll().stream().filter(product -> product.isActive().equals(true)).collect(Collectors.toList());
     }
 }

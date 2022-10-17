@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "PURCHASE_ORDER_DETAIL")
 public class PurchaseOrderDetail {
 
     @Id
@@ -12,7 +13,7 @@ public class PurchaseOrderDetail {
     @Column(nullable = false, updatable = false)
     private Long purchaseOrderDetailId;
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "purchaseOrder_id")
     private PurchaseOrder purchaseOrder = new PurchaseOrder();
     @Column

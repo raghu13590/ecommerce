@@ -105,7 +105,7 @@ public class ProductServiceTest {
         when(productRepo.save(availableProduct)).thenReturn(availableProduct);
 
         // execute
-        Product removedProduct = productServiceImpl.removeProduct(availableProduct.getProductId());
+        Product removedProduct = productServiceImpl.deActivateProduct(availableProduct.getProductId());
 
         // assert
         assertThat(removedProduct.isActive()).isEqualTo(false);
