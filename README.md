@@ -7,11 +7,17 @@ Java 11<br/>
 Gradle 5
 
 ## Commands</br>
-starting the application *./gradlew bootRun<br/>*
-running unit tests *./gradlew test*
+starting the application 
+```
+./gradlew bootRun
+```
+running unit tests
+```
+./gradlew test
+```
 
 ## Database schema
 ![database schema](docs/ecommerceSchema.jpg)
 
-## REST end points swagger UI
-![documentation](docs/ecommerceSwaggerUI.pdf)
+## REST end points documentation
+[SwaggerUI](docs/ecommerceSwaggerUI.pdf)
