@@ -9,3 +9,11 @@ Gradle 5
 ## Commands</br>
 starting the application *./gradlew bootRun<br/>*
 running unit tests *./gradlew test*
+
+## Database schema
+![database schema](docs/ecommerceSchema.jpg)
+
+## REST end points swagger UI
+![documentation](docs/ecommerceSwaggerUI.pdf)
+
+
