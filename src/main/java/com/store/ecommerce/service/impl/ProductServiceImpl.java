@@ -100,7 +100,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllActiveProducts() {
-        return productRepo.findAll().stream().filter(product -> product.isActive().equals(true))
-                .collect(Collectors.toList());
+        return productRepo.findAll().stream().filter(product -> product.isActive().equals(true)).collect(Collectors.toList());
     }
 }
