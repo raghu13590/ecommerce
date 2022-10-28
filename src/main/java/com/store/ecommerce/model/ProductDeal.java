@@ -1,5 +1,7 @@
 package com.store.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,7 @@ public class ProductDeal {
     @Column(nullable = false)
     private ProductDealType productDealType;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "deal_id", nullable = false)
     private Deal deal;
