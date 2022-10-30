@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -29,6 +30,20 @@ public class Cart {
     private Double total;
     @Version
     private Long version;
+
+    @ManyToMany
+    @JoinTable(name = "cart_deal",
+            joinColumns = @JoinColumn(name = "cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "deal_id"))
+    private Set<Deal> deal = new LinkedHashSet<>();
+
+    public Set<Deal> getDeal() {
+        return deal;
+    }
+
+    public void setDeal(Set<Deal> deal) {
+        this.deal = deal;
+    }
 
     public Cart() {
         this.createTime = LocalDate.now();

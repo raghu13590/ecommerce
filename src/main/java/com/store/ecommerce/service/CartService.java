@@ -20,4 +20,6 @@ public interface CartService {
     void deleteCart(Long cartId);
 
     Cart removeProductFromCart(Long cartId, Long productId, Long qty);
+
+    Cart checkout(Long cartId);
 }

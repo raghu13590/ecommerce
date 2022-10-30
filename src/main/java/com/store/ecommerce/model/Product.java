@@ -123,4 +123,9 @@ public class Product {
     public void setVersion(Long version) {
         this.version = version;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        return object instanceof Product && (((Product) object).getProductId().equals(this.productId));
+    }
 }

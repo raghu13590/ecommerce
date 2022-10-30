@@ -28,6 +28,9 @@ public class Deal {
     @Column(nullable = false)
     private Boolean active;
 
+    @Column
+    private Boolean combinable;
+
     public Long getDealId() {
         return dealId;
     }
@@ -76,7 +79,15 @@ public class Deal {
         this.active = active;
     }
 
+    public Boolean getCombinable() {
+        return combinable;
+    }
+
+    public void setCombinable(Boolean combinable) {
+        this.combinable = combinable;
+    }
+
     public enum DealType {
-        BUY_TWO_GET_PRODUCT, BUY_THREE_GET_ONE
+        BUY_TWO_GET_ONE, BUY_THREE_GET_ONE
     }
 }

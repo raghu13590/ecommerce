@@ -1,25 +1,19 @@
 package com.store.ecommerce.service.impl;
 
+import com.store.ecommerce.deal.DealProcessor;
+import com.store.ecommerce.deal.IDealProcessor;
 import com.store.ecommerce.disocuntutil.DiscountCalculator;
 import com.store.ecommerce.disocuntutil.DiscountFactory;
 import com.store.ecommerce.exception.EcommerceException;
-import com.store.ecommerce.model.Cart;
-import com.store.ecommerce.model.CartItem;
-import com.store.ecommerce.model.Discount;
-import com.store.ecommerce.model.Product;
-import com.store.ecommerce.repository.CartItemRepo;
-import com.store.ecommerce.repository.CartRepo;
-import com.store.ecommerce.repository.DiscountRepo;
-import com.store.ecommerce.repository.ProductRepo;
+import com.store.ecommerce.model.*;
+import com.store.ecommerce.repository.*;
 import com.store.ecommerce.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CartServiceImpl implements CartService {
@@ -41,6 +35,15 @@ public class CartServiceImpl implements CartService {
 
     @Autowired
     private DiscountFactory discountFactory;
+
+    @Autowired
+    private DealRepo dealRepo;
+
+    @Autowired
+    private ProductDealRepo productDealRepo;
+
+    @Autowired
+    private IDealProcessor dealProcessor;
 
     @Override
     public List<Cart> getAllCarts() {
@@ -100,13 +103,21 @@ public class CartServiceImpl implements CartService {
      * @param productId
      */
     private void validateCartAndProduct(Long cartId, Long productId) {
-        if (!cartRepo.existsById(cartId)) {
-            throw new EcommerceException("cart doesn't exist");
-        }
+        validateCart(cartId);
 
         if (!productRepo.existsById(productId) || (productRepo.findById(productId)
                 .isPresent() && !productRepo.findById(productId).get().isActive())) {
             throw new EcommerceException("product doesn't exist or not available");
+        }
+    }
+
+    /***
+     * checks if cart exists
+     * @param cartId
+     */
+    private void validateCart(Long cartId) {
+        if (!cartRepo.existsById(cartId)) {
+            throw new EcommerceException("cart doesn't exist");
         }
     }
 
@@ -187,6 +198,18 @@ public class CartServiceImpl implements CartService {
         // remove items from cart and adjust the total
         cart.setTotal(calculateCartTotal(cart.getItemsInCart()));
         cart.setLastUpdate(LocalDate.now());
+        cartRepo.save(cart);
+        return cart;
+    }
+
+    @Override
+    public Cart checkout(Long cartId) {
+
+        validateCart(cartId);
+        Cart cart = cartRepo.findById(cartId).orElseThrow();
+
+        Set<Deal> deals = dealProcessor.getDeals(cart);
+        cart = dealProcessor.applyDeals(cart, deals);
         cartRepo.save(cart);
         return cart;
     }
