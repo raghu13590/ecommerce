@@ -14,6 +14,7 @@ public class ProductDeal {
     private Long productDealId;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ProductDealType productDealType;
 
     @JsonIgnore

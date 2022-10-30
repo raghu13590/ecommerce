@@ -34,7 +34,7 @@ public class DealProcessor implements IDealProcessor {
 
         // get items in cart
         Map<Product, Long> productsInCart = new HashMap<>();
-        cart.getItemsInCart().forEach(cartItem -> productsInCart.put(cartItem.getProduct(), productsInCart.getOrDefault(cartItem.getProduct(), 0L)));
+        cart.getItemsInCart().forEach(cartItem -> productsInCart.put(cartItem.getProduct(), productsInCart.getOrDefault(cartItem.getProduct(), 0L) + 1));
 
         List<Product> freeItems = new ArrayList<>();
 

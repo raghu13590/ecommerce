@@ -2,19 +2,15 @@ package com.store.ecommerce.service.impl;
 
 import com.store.ecommerce.exception.EcommerceException;
 import com.store.ecommerce.model.Deal;
-import com.store.ecommerce.model.Product;
-import com.store.ecommerce.model.ProductDeal;
 import com.store.ecommerce.repository.DealRepo;
 import com.store.ecommerce.repository.ProductDealRepo;
 import com.store.ecommerce.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class DealServiceImpl implements IDealService{
@@ -44,6 +40,7 @@ public class DealServiceImpl implements IDealService{
         return dealRepo.save(deal);
     }
 
+    @Transactional
     @Override
     public Deal updateDeal(Deal deal, Long dealId) {
         if (!dealRepo.existsById(dealId)) {
@@ -51,14 +48,22 @@ public class DealServiceImpl implements IDealService{
         }
 
         validateDeal(deal);
+        Deal existingDeal = dealRepo.findById(dealId).orElseThrow();
         deal.setDealId(dealId);
+
+        // delete existing dealProducts
+        existingDeal.getProductDeals().forEach(productDeal -> productDealRepo.deleteById(productDeal.getProductDealId()));
+        existingDeal.getProductDeals().clear();
+
+        // create new dealProducts and set them in deal
         deal.getProductDeals().forEach(productDeal -> {
-            productDeal.setProduct(productRepo.findById(productDeal.getProduct().getProductId()).get());
-            productDeal.setDeal(deal);
+            productDeal.setProduct(productRepo.findById(productDeal.getProduct().getProductId()).orElseThrow());
+            productDeal.setDeal(existingDeal);
             productDealRepo.save(productDeal);
+            existingDeal.getProductDeals().add(productDeal);
         });
 
-        return dealRepo.save(deal);
+        return dealRepo.save(existingDeal);
     }
 
     private void validateDeal(Deal deal) {

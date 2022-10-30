@@ -22,7 +22,7 @@ public class Deal {
     @Column(nullable = false)
     private DealType dealType;
 
-    @OneToMany(mappedBy = "productDealId")
+    @OneToMany(mappedBy = "deal")
     private Set<ProductDeal> productDeals = new HashSet<>();
 
     @Column(nullable = false)
