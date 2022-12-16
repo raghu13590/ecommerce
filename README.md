@@ -1,6 +1,6 @@
 # E-Commerce back-end application built in Java and Spring Boot
 
-A Spring application for selling goods online with functionality to run discounts
+A Spring application for selling goods online with functionality to apply discounts
 and deals. Application uses REST endpoints to create, read, update and delete products to sell, discounts for each product, deals for multiple products and also endpoints to add and remove products to customer's cart. The discounts and deals are calculated while these products are being added and removed from the cart.
 
 Project demonstrates how to utilize
@@ -16,11 +16,11 @@ Project demonstrates how to utilize
 - SwaggerUI for documentation
 
 
-## Requirements</br>
+## Requirements
 Java 11<br/>
 Gradle 5
 
-## Commands</br>
+## Commands
 starting the application 
 ```
 ./gradlew bootRun
@@ -33,5 +33,5 @@ running unit tests
 ## Database schema
 ![database schema](docs/ecommerceSchema.jpg)
 
-## REST end points documentation
-[SwaggerUI](docs/ecommerceSwaggerUI.pdf)
+## API docs
+https://raghu13590.github.io/ecommerce/index.html
